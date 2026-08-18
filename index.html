@@ -277,6 +277,179 @@ table.map td b{color:var(--text);font-weight:560}
 
   /* reading comfort: balance display text */
   h1, h2, h3 { text-wrap: balance; }
+
+/* ==================================================================
+   v10 — wide canvas · section identity · colour
+   Appended last on purpose: these rules tie on specificity with the
+   ones above and win on source order, so the media queries here bite.
+   ================================================================== */
+
+/* ---------- wide canvas outside, reading measure inside ---------- */
+:root{--wide:var(--maxw);--gut:1.25rem}
+@media(min-width:980px){:root{--wide:68rem;--gut:2rem}}
+@media(min-width:1400px){:root{--wide:78rem}}
+@media(min-width:1700px){:root{--wide:86rem;--gut:2.5rem}}
+.wrap{max-width:var(--wide);padding:0 var(--gut)}
+.measure{max-width:var(--maxw)}
+.sechead .lede,.sechead>.smallnote{max-width:var(--maxw)}
+
+/* ---------- primary button: white on red, in both themes ---------- */
+.btn.primary,.btn.primary:hover{color:#fff}
+.btn.primary{border-color:#d4553f;box-shadow:0 1px 2px rgba(0,0,0,.16)}
+
+/* ---------- five sections, five identities ---------- */
+main>section{position:relative;padding:4rem 0 4.5rem;--ac:var(--sec)}
+#top{--sec:var(--ax4)}
+#diagnostic{--sec:var(--ax4)}
+#atlas{--sec:var(--ax6)}
+#table{--sec:var(--ax2)}
+#compendium{--sec:var(--ax3)}
+#method{--sec:var(--ax5)}
+.hero{padding:3.5rem 0 4rem}
+.sechead{margin:0 0 2rem;padding-top:0}
+/* full-bleed band, alternating, so the sections read as separate slabs */
+main>section::before{content:"";position:absolute;z-index:-1;top:0;bottom:0;left:50%;
+  width:100vw;transform:translateX(-50%);pointer-events:none}
+#diagnostic::before,#table::before,#method::before{
+  background:linear-gradient(180deg,color-mix(in srgb,var(--sec) 8%,var(--bg2)) 0%,var(--bg2) 34%);
+  border-top:1px solid color-mix(in srgb,var(--sec) 34%,var(--border));
+  border-bottom:1px solid var(--border)}
+.sechead .n{display:inline-flex;align-items:center;gap:.45em;margin:0 0 1rem;
+  color:var(--sec,var(--dim));font-size:.64rem;letter-spacing:.2em;
+  padding:.42rem .82rem;border-radius:999px;
+  border:1px solid color-mix(in srgb,var(--sec,var(--dim)) 42%,transparent);
+  background:color-mix(in srgb,var(--sec,var(--dim)) 11%,transparent)}
+.sechead h2{font-size:clamp(2rem,5vw,3rem);margin-bottom:.45em}
+.sechead h2::after{content:"";display:block;width:3.2rem;height:3px;border-radius:2px;
+  background:var(--sec,var(--dim));margin:.75rem 0 0}
+
+/* ---------- hero: two-track bento ---------- */
+.herogrid{display:grid;gap:2rem}
+.hero .lede{max-width:36rem}
+.heroside{display:grid;gap:1rem;align-content:start}
+.heroside>.eyebrow{margin:0}
+.heroside .callout{margin:0}
+.axisstrip .chip svg.ic{color:var(--ac)}
+@media(min-width:980px){
+  .hero{padding-top:5rem}
+  .hero h1{font-size:clamp(2.4rem,4.6vw,4.2rem)}
+  .herogrid{grid-template-columns:minmax(0,1.5fr) minmax(17rem,.85fr);gap:3.5rem;align-items:start}
+  .axisstrip{display:grid;grid-template-columns:1fr;gap:.45rem;margin:0}
+  .axisstrip .chip{justify-content:flex-start;padding:.62rem .85rem;border-radius:.7rem;
+    background:var(--surface);border-color:color-mix(in srgb,var(--ac) 32%,var(--border));font-size:.68rem}
+  .axisstrip .chip:hover{background:color-mix(in srgb,var(--ac) 9%,var(--surface));
+    border-color:var(--ac);color:var(--text)}
+}
+
+/* ---------- diagnostic ---------- */
+.quizgrid{display:grid;gap:1rem}
+.quizside{display:grid;gap:1rem;align-content:start}
+.quizside .card{background:var(--surface)}
+ol.parts{list-style:none;margin:.6rem 0 0;padding:0;display:grid;gap:.9rem;counter-reset:p}
+ol.parts li{display:grid;grid-template-columns:auto 1fr;gap:.15rem .7rem;font-size:.85rem;color:var(--muted)}
+ol.parts .pn{grid-row:1/3;font-family:var(--mono);font-size:.66rem;font-weight:600;color:var(--sec);
+  border:1px solid color-mix(in srgb,var(--sec) 45%,transparent);border-radius:.5rem;
+  padding:.25rem .4rem;align-self:start;line-height:1}
+ol.parts b{color:var(--text);font-weight:580}
+@media(min-width:980px){
+  .quizgrid{grid-template-columns:minmax(0,1.55fr) minmax(16rem,.8fr);gap:1.6rem;align-items:start}
+  #quizbox{max-width:none}
+  #resultbox{max-width:64rem}
+  .qtext{font-size:clamp(1.35rem,2.3vw,1.75rem)}
+}
+
+/* ---------- atlas: sticky axis rail + dossier bento ---------- */
+.axsection{margin:4rem 0 0;padding-top:2.5rem}
+.dossiergrid{display:grid;gap:1rem;align-items:start}
+.dossier{margin:0}
+@media(min-width:980px){
+  .dossiergrid{grid-template-columns:repeat(auto-fit,minmax(21rem,1fr))}
+  .dossier[open]{grid-column:1/-1}
+  .dossier[open] .dbody{padding:1.5rem 1.7rem 1.9rem}
+  ul.clean{grid-template-columns:repeat(auto-fill,minmax(16rem,1fr))}
+  .cases{grid-template-columns:repeat(auto-fill,minmax(18rem,1fr));align-items:start}
+  .case[open]{grid-column:1/-1}
+  .kv{grid-template-columns:10.5rem minmax(0,1fr)}
+  .vaultrow{grid-template-columns:10.5rem minmax(0,1fr)}
+}
+@media(min-width:1180px){
+  .axsection{display:grid;grid-template-columns:minmax(19rem,23rem) minmax(0,1fr);
+    gap:2.5rem 3rem;align-items:start}
+  .axrail{position:sticky;top:4.5rem}
+  .axrail .poleintro,.axrail .altarpair{grid-template-columns:1fr;gap:.6rem}
+  .dossiergrid{grid-template-columns:repeat(auto-fit,minmax(17rem,1fr))}
+}
+
+/* ---------- colour: poles, altars, chips, lists, labels ---------- */
+.pole .t{display:flex;align-items:center;gap:.42em}
+.pole.core{border-color:color-mix(in srgb,var(--ac) 34%,var(--border));
+  background:linear-gradient(180deg,color-mix(in srgb,var(--ac) 11%,var(--bg2)),var(--bg2) 72%)}
+.pole.core .t{color:var(--ac)}
+.pole.inv,.pole.warn{border-color:color-mix(in srgb,var(--ax4) 26%,var(--border));
+  background:linear-gradient(180deg,color-mix(in srgb,var(--ax4) 9%,var(--bg2)),var(--bg2) 72%)}
+.pole.inv .t,.pole.warn .t{color:color-mix(in srgb,var(--ax4) 72%,var(--text))}
+.chip.good{border-color:color-mix(in srgb,var(--ac) 48%,var(--border2));
+  background:color-mix(in srgb,var(--ac) 10%,var(--bg2));color:var(--text)}
+.chip.warn{border-color:color-mix(in srgb,var(--ax4) 38%,var(--border2));
+  background:color-mix(in srgb,var(--ax4) 9%,var(--bg2));color:color-mix(in srgb,var(--ax4) 45%,var(--text))}
+.chip.name{border-style:dashed}
+ul.clean li{position:relative;padding-left:1.9rem}
+ul.clean li::before{content:"";position:absolute;left:.85rem;top:1.18em;width:.38rem;height:.38rem;
+  border-radius:50%;background:color-mix(in srgb,var(--ac,var(--dim)) 85%,transparent)}
+ul.clean.everyday li{padding-left:1.75rem}
+ul.clean.everyday li::before{left:.65rem}
+/* kv rows: a mark per label, a hairline per pair, and a full-width stack
+   under 640px so the value isn't squeezed into a third of the card */
+.kv{gap:.85rem .9rem}
+.kv dt{color:color-mix(in srgb,var(--ac,var(--dim)) 62%,var(--muted));font-weight:600;
+  display:flex;align-items:flex-start;gap:.5em;padding-top:.3em}
+.kv dt svg.ic{width:1.3em;height:1.3em;margin-top:-.1em}
+.kv dt,.kv dd{padding-bottom:.85rem;
+  border-bottom:1px solid color-mix(in srgb,var(--border) 65%,transparent)}
+.kv dt:last-of-type,.kv dd:last-of-type{padding-bottom:0;border-bottom:0}
+@media(max-width:639px){
+  .kv{grid-template-columns:minmax(0,1fr);gap:.3rem}
+  .kv dt{padding-top:0;padding-bottom:0;border-bottom:0}
+  .kv dd{padding-bottom:1rem;margin-bottom:.2rem}
+  .kv dd:last-of-type{padding-bottom:0;margin-bottom:0}
+  .vaultrow{grid-template-columns:minmax(0,1fr);gap:.3rem}
+}
+details.acc{border-left:3px solid color-mix(in srgb,var(--ac,var(--border2)) 55%,var(--border))}
+details.acc[open]{background:color-mix(in srgb,var(--ac) 5%,var(--bg2))}
+.tagpill{display:inline-flex;align-items:center;gap:.3em;font-family:var(--mono);font-size:.58rem;
+  font-weight:520;letter-spacing:.13em;text-transform:uppercase;padding:.22rem .58rem;
+  border-radius:999px;white-space:nowrap;
+  color:color-mix(in srgb,var(--ac,var(--dim)) 70%,var(--text));
+  background:color-mix(in srgb,var(--ac) 12%,transparent);
+  border:1px solid color-mix(in srgb,var(--ac) 32%,transparent)}
+
+/* ---------- table ---------- */
+table.map{min-width:0}
+@media(max-width:979px){table.map{min-width:680px}}
+table.map tbody tr:hover td{background:color-mix(in srgb,var(--sec) 7%,transparent)}
+
+/* ---------- compendium ---------- */
+.compgrid{grid-template-columns:repeat(auto-fill,minmax(16.5rem,1fr));align-items:start}
+.subfreq{border-top:3px solid color-mix(in srgb,var(--ac,var(--border2)) 70%,transparent);
+  background:linear-gradient(180deg,color-mix(in srgb,var(--ac) 8%,var(--surface)),var(--surface) 62%)}
+.subfreq .pair{display:flex;flex-wrap:wrap;align-items:center;gap:.5rem}
+.compgroup{margin:2.8rem 0 0}
+.compgroup>h3{display:flex;align-items:center;gap:.5rem;color:var(--ac);margin-bottom:.35rem}
+.compgroup>.smallnote{max-width:var(--maxw);margin-top:0}
+.glist,.srcgrid{display:grid;gap:.6rem;align-items:start}
+@media(min-width:760px){
+  .glist,.srcgrid{grid-template-columns:repeat(auto-fill,minmax(19rem,1fr))}
+  .glist details.acc[open],.srcgrid details.acc[open]{grid-column:1/-1}
+}
+
+/* ---------- method ---------- */
+.mblock{margin:2.4rem 0 0}
+.mblock>h3{display:flex;align-items:center;gap:.5rem;font-size:1.25rem}
+.mblock>p,.mblock>.smallnote{max-width:var(--maxw)}
+@media(min-width:980px){
+  .methodgrid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:0 3rem;align-items:start}
+  .methodgrid .mblock{margin-top:0}
+}
 </style>
 </head>
 <body>
@@ -332,7 +505,23 @@ const ICONS = {
   gift:'<rect x="4" y="9" width="16" height="11.4" rx="1"/><path d="M4 12.8h16M12 9v11.4"/><path d="M12 9S9.4 4.6 7.5 6.2 9 9 12 9zM12 9s2.6-4.4 4.5-2.8S15 9 12 9z"/>',
   caret:'<path d="M9 5l7 7-7 7"/>',
   route:'<circle cx="6" cy="18" r="2.3"/><circle cx="18" cy="6" r="2.3"/><path d="M8.2 16.4c5.4-1.2 7.4-3.2 8-8.1"/>',
+  sun:'<circle cx="12" cy="12" r="4"/><path d="M12 2.5v2M12 19.5v2M4.4 4.4l1.4 1.4M18.2 18.2l1.4 1.4M2.5 12h2M19.5 12h2M4.4 19.6l1.4-1.4M18.2 5.8l1.4-1.4"/>',
+  crown:'<path d="M4 17.6h16"/><path d="M4.6 15.2 2.9 6.6l5.1 3.5L12 4.2l4 5.9 5.1-3.5-1.7 8.6z"/>',
+  eye:'<path d="M2.6 12S6.2 5.9 12 5.9 21.4 12 21.4 12 17.8 18.1 12 18.1 2.6 12 2.6 12z"/><circle cx="12" cy="12" r="3.1"/>',
+  pulse:'<path d="M2.6 12.6h4.1L9 7.2l3.2 9.7 2.1-4.3h5.1"/>',
+  shield:'<path d="M12 3.2 19.2 6v5.4c0 4.4-3 7.7-7.2 9.4-4.2-1.7-7.2-5-7.2-9.4V6z"/>',
+  warn:'<path d="M12 4.4 20.4 19H3.6z"/><path d="M12 10v3.7M12 16.3v.1"/>',
+  quote:'<path d="M9.4 7.2C7 8.2 5.4 10.4 5.4 13v3.8h4.6V13H7.8c0-1.5.6-2.6 1.9-3.2z"/><path d="M18.8 7.2c-2.4 1-4 3.2-4 5.8v3.8h4.6V13h-2.2c0-1.5.6-2.6 1.9-3.2z"/>',
+  mask:'<path d="M3.7 7.7c2.9-1 5.5-1.4 8.3-1.4s5.4.4 8.3 1.4c.3 3.7-.5 6.8-2.3 8.5-1.4 1.3-3 .9-3.9-.3-.9-1-1.4-1.5-2.1-1.5s-1.2.5-2.1 1.5c-.9 1.2-2.5 1.6-3.9.3-1.8-1.7-2.6-4.8-2.3-8.5z"/><path d="M7.5 10.7h1.7M14.8 10.7h1.7"/>',
+  clock:'<circle cx="12" cy="12" r="8.6"/><path d="M12 7.2V12l3.2 2"/>',
+  key:'<circle cx="8" cy="14.4" r="3.4"/><path d="M10.6 12 19 3.6M16.2 6.4l2 2M13.9 8.7l2 2"/>',
+  scroll:'<path d="M5.6 5.4a1.8 1.8 0 0 1 1.8-1.8h9.2a1.8 1.8 0 0 1 1.8 1.8v13.2a1.8 1.8 0 0 1-1.8 1.8H7.4a1.8 1.8 0 0 1-1.8-1.8z"/><path d="M8.8 8.2h6.4M8.8 12h6.4M8.8 15.8h4"/>',
+  moon:'<path d="M20.4 14.5A8.4 8.4 0 0 1 9.5 3.6a7 7 0 1 0 10.9 10.9z"/>',
+  drop:'<path d="M12 3.4c3 3.6 5.4 6.3 5.4 9.2a5.4 5.4 0 0 1-10.8 0c0-2.9 2.4-5.6 5.4-9.2z"/>',
+  node:'<path d="M12 4.6 19.4 12 12 19.4 4.6 12z"/>',
 };
+/* one icon per axis, so the six axes read apart at a glance */
+const AXIS_ICON = {1:"heart",2:"waves",3:"sun",4:"crown",5:"gift",6:"eye"};
 const icon = (n,cls="ic") => `<svg class="${cls}" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${ICONS[n]||""}</svg>`;
 
 const store = {
@@ -384,7 +573,27 @@ function score(answers){
 function badge(conf,label,ac){
   return `<span class="badge ${conf}" style="--ac:${ac||"#888"}"><span class="dot"></span>${esc(label)}</span>`;
 }
-function kvRow(dt,dd){ return `<dt>${dt}</dt><dd>${dd}</dd>`; }
+/* every kv label carries a mark — 40-odd rows of mono uppercase all look
+   alike otherwise, especially stacked on a phone */
+const KV_ICON = {
+  "tagline":"quote", "essence":"gem", "mandate":"flag", "the lie":"mask",
+  "lubricant":"drop", "countermove":"shield", "decree":"scroll",
+  "core":"sun", "inverse":"moon", "legal access":"key", "ancient case":"book",
+  "modern translation":"route", "gifting":"gift",
+  "wiring passage":"book", "redemption passage":"scroll", "lineage":"route",
+  "first five minutes":"clock", "mindset shift":"sparkle",
+  "structural boundary":"shield", "altar replacement":"flame", "redemptive arc":"sun",
+  "warfare":"target", "fuller form":"layers", "core fear":"heart",
+  "counterfeit altar":"warn", "godly altar":"flame", "godly expression":"sparkle",
+  "emotional signature":"heart", "somatic tripwire":"pulse", "trauma echo":"waves",
+  "counterfeit reward":"gem", "burnout":"flame", "isolation":"users",
+  "primary shadow":"mask", "ecosystem collision":"route", "synthesis":"layers",
+  "tribal archetype":"crown", "frequency axis":"waves", "fivefold overlap":"users",
+  "secular translation":"route", "biblical blueprint":"flag",
+};
+function kvRow(dt,dd,ic){
+  return `<dt>${icon(ic||KV_ICON[String(dt).toLowerCase()]||"node")}<span>${dt}</span></dt><dd>${dd}</dd>`;
+}
 function arcHtml(arc,ac,provenLabel){
   const stages = [["fracture","The fracture"],["counterfeitLoop","The counterfeit loop"],
                   ["divineInterruption","The divine interruption"],["redemptivePivot","The redemptive pivot"]];
@@ -396,8 +605,8 @@ function arcHtml(arc,ac,provenLabel){
     ${provenLabel?`<p class="proven">${esc(provenLabel)}</p>`:""}`;
 }
 function caseCard(c,ac){
-  const chips = (c.goodTraits||[]).map(t=>`<span class="chip" style="border-color:color-mix(in srgb,var(--ac) 40%,var(--border2))">${esc(t)}</span>`).join("")
-    + (c.badTraits||[]).map(t=>`<span class="chip">${esc(t)}</span>`).join("");
+  const chips = (c.goodTraits||[]).map(t=>`<span class="chip good">${esc(t)}</span>`).join("")
+    + (c.badTraits||[]).map(t=>`<span class="chip warn">${esc(t)}</span>`).join("");
   /* an arc is the same canonical material as journey/healing, structured —
      render the arc when present, prose otherwise (no duplication) */
   let body = "";
@@ -433,9 +642,9 @@ function dossier(a){
   const everyday = (a.vault.examples||[]).map(e=>`<li>${esc(e)}</li>`).join("");
   const cases = (a.allCases||[]).slice().sort((x,y)=>(y.isBlueprint?1:0)-(x.isBlueprint?1:0))
     .map(c=>caseCard(c,AC)).join("");
-  const nameChips = (a.biblicalExamples||[]).map(n=>`<span class="chip">${esc(n)}</span>`).join("");
-  const traitChips = (a.positiveTraits||[]).map(t=>`<span class="chip" style="border-color:color-mix(in srgb,${AC} 45%,var(--border2));color:var(--text)">${esc(t)}</span>`).join("")
-    + (a.shortStruggles||[]).map(t=>`<span class="chip">⚠ ${esc(t)}</span>`).join("");
+  const nameChips = (a.biblicalExamples||[]).map(n=>`<span class="chip name">${esc(n)}</span>`).join("");
+  const traitChips = (a.positiveTraits||[]).map(t=>`<span class="chip good">${esc(t)}</span>`).join("")
+    + (a.shortStruggles||[]).map(t=>`<span class="chip warn">⚠ ${esc(t)}</span>`).join("");
 
   const vaultRows = (a.vault.scriptureVault||[]).map(v=>`
     <div class="vaultrow" style="--ac:${AC}"><span class="lb">${esc(v.label)}</span>
@@ -465,9 +674,9 @@ function dossier(a){
     <div class="dbody">
 
       <div class="poleintro">
-        <div class="pole core" style="--ac:${AC}"><div class="t">Calling pole — how this wiring serves</div>
+        <div class="pole core"><div class="t">${icon("sparkle")}Calling pole — how this wiring serves</div>
           <p style="color:var(--text)">${esc(a.essay.callingPole||a.react.coreDesc||"")}</p></div>
-        <div class="pole inv"><div class="t">Attack pole — how it inverts</div>
+        <div class="pole inv"><div class="t">${icon("target")}Attack pole — how it inverts</div>
           <p>${esc(a.essay.attackPole||a.react.inverseDesc||"")}</p></div>
       </div>
       ${traitChips?`<div class="chiprow">${traitChips}</div>`:""}
@@ -580,26 +789,39 @@ function dossier(a){
 }
 
 /* ============================== page sections ============================== */
+/* declared here because quizSection() prints the part summaries in its side rail */
+const PART_INTROS = {
+  1:{n:"Part I of III", t:"Where the attack lands", d:"Twelve statements about pressure."},
+  2:{n:"Part II of III", t:"How you are wired", d:"Twelve statements about design — what has always been true, what you do before anyone pays or asks you to."},
+  3:{n:"Part III of III", t:"Which failure mode is yours", d:"Where several archetypes share one battlefield, the failure modes differ. Choose what you recognize — or say that none of them fit. Honesty beats completion."},
+};
 function heroSection(){
   const F = CANON.framing;
-  const axchips = AXES.map(ax=>`<a class="chip" href="#ax${ax.id}" style="--ac:${accents[ax.id]}"><span style="width:.5em;height:.5em;border-radius:50%;background:${accents[ax.id]};display:inline-block"></span>${esc(ax.core.name.replace(/\s*\(.*\)/,""))} ⇌ ${esc(ax.inverse.name.replace(/\s*&.*/,""))}</a>`).join("");
+  const axchips = AXES.map(ax=>`<a class="chip" href="#ax${ax.id}" style="--ac:${accents[ax.id]}">${icon(AXIS_ICON[ax.id])}<span>${esc(ax.core.name.replace(/\s*\(.*\)/,""))} ⇌ ${esc(ax.inverse.name.replace(/\s*&.*/,""))}</span></a>`).join("");
   return `<section class="hero" id="top">
-    <div class="glyph" aria-hidden="true">⇌</div>
-    <p class="eyebrow">${icon("compass")}A calling-discovery instrument</p>
-    <h1>The callings, and the <em>frequencies they invert.</em></h1>
-    <p class="lede">${esc(F.intro)}</p>
-    <p class="lede" style="color:var(--text)">${esc(F.thesis)}</p>
-    <div class="axisstrip" aria-label="The six frequency axes">${axchips}</div>
-    <div class="callout">
-      <p class="eyebrow">${icon("sparkle")}Before you proceed</p>
-      <p style="margin:0;font-size:.95rem;color:var(--muted)">${esc(F.surrender)}</p>
-    </div>
-    <div class="ctarow">
-      <a class="btn primary" href="#diagnostic">Take the diagnostic <span aria-hidden="true">↓</span></a>
-      <a class="btn ghost" href="#atlas">Or scroll straight into the atlas</a>
+    <div class="herogrid">
+      <div class="heromain">
+        <div class="glyph" aria-hidden="true">⇌</div>
+        <p class="eyebrow">${icon("compass")}A calling-discovery instrument</p>
+        <h1>The callings, and the <em>frequencies they invert.</em></h1>
+        <p class="lede">${esc(F.intro)}</p>
+        <p class="lede" style="color:var(--text)">${esc(F.thesis)}</p>
+        <div class="ctarow">
+          <a class="btn primary" href="#diagnostic">Take the diagnostic <span aria-hidden="true">↓</span></a>
+          <a class="btn ghost" href="#atlas">Or scroll straight into the atlas</a>
+        </div>
+      </div>
+      <aside class="heroside" aria-label="The six frequency axes">
+        <p class="eyebrow">${icon("layers")}The six axes</p>
+        <div class="axisstrip">${axchips}</div>
+        <div class="callout">
+          <p class="eyebrow">${icon("sparkle")}Before you proceed</p>
+          <p style="margin:0;font-size:.95rem;color:var(--muted)">${esc(F.surrender)}</p>
+        </div>
+      </aside>
     </div>
     <hr class="rule">
-    <p class="smallnote serifq">${esc(stripTags(F.guardrail))}</p>
+    <p class="smallnote serifq measure">${esc(stripTags(F.guardrail))}</p>
   </section>`;
 }
 
@@ -607,7 +829,23 @@ function quizSection(){
   return `<section id="diagnostic">
     <div class="sechead"><p class="n">${icon("compass")}I · Diagnostic</p><h2>Where does the attack concentrate?</h2>
     <p class="lede">Twenty-seven statements, three parts, about six minutes. The attack is diagnostic — it concentrates at the inverse of what you were built for. Answer for the last season of your life, not your best week.</p></div>
-    <div id="quizbox"></div>
+    <div class="quizgrid">
+      <div id="quizbox"></div>
+      <aside class="quizside" aria-label="What the three parts measure">
+        <div class="card">
+          <p class="eyebrow">${icon("layers")}The three parts</p>
+          <ol class="parts">
+            <li><span class="pn">01</span><b>${esc(PART_INTROS[1].t)}</b><span>${esc(PART_INTROS[1].d)}</span></li>
+            <li><span class="pn">02</span><b>${esc(PART_INTROS[2].t)}</b><span>${esc(PART_INTROS[2].d)}</span></li>
+            <li><span class="pn">03</span><b>${esc(PART_INTROS[3].t)}</b><span>${esc(PART_INTROS[3].d)}</span></li>
+          </ol>
+        </div>
+        <div class="card">
+          <p class="eyebrow">${icon("shield")}Where your answers go</p>
+          <p class="smallnote" style="margin:0">Nowhere. The scoring runs in this page and your answers are kept in this browser only — there is no account, no server, and nothing is sent anywhere.</p>
+        </div>
+      </aside>
+    </div>
     <div id="resultbox"></div>
   </section>`;
 }
@@ -617,28 +855,30 @@ function atlasSection(){
   const groups = AXES.map(ax=>{
     const e = ax.essay||{};
     return `<div class="axsection" id="ax${ax.id}" style="--ac:${accents[ax.id]}">
-      <div class="axtitle"><h3>${icon("waves")}${esc(ax.name)}</h3><span class="ref">Axis 0${ax.id}</span></div>
-      <div class="poleintro">
-        <div class="pole core" style="--ac:${accents[ax.id]}"><div class="t">Core frequency — ${esc(ax.core.name)}</div>
-          <p>${esc(e.coreText||ax.core.desc)}</p></div>
-        <div class="pole inv"><div class="t">Attack frequency — ${esc(ax.inverse.name)}</div>
-          <p>${esc(e.inverseText||ax.inverse.desc)}</p></div>
+      <div class="axrail">
+        <div class="axtitle"><h3>${icon(AXIS_ICON[ax.id])}${esc(ax.name)}</h3><span class="ref">Axis 0${ax.id}</span></div>
+        <div class="poleintro">
+          <div class="pole core"><div class="t">${icon("sparkle")}Core frequency — ${esc(ax.core.name)}</div>
+            <p>${esc(e.coreText||ax.core.desc)}</p></div>
+          <div class="pole inv"><div class="t">${icon("target")}Attack frequency — ${esc(ax.inverse.name)}</div>
+            <p>${esc(e.inverseText||ax.inverse.desc)}</p></div>
+        </div>
+        <p class="principleline">${esc(ax.principle||"")}</p>
+        <div class="altarpair">
+          <div class="pole warn"><div class="t">${icon("warn")}Counterfeit altar — ${esc((ax.altars?.counterfeit?.name)||"")}</div>
+            <p>${esc((e.counterfeitAltar?.desc)||(ax.altars?.counterfeit?.desc)||"")}</p></div>
+          <div class="pole core"><div class="t">${icon("flame")}Godly replacement — ${esc((ax.altars?.godly?.name)||"")}</div>
+            <p>${esc((e.godlyAltar?.desc)||(ax.altars?.godly?.desc)||"")}</p></div>
+        </div>
       </div>
-      <p class="principleline">${esc(ax.principle||"")}</p>
-      <div class="altarpair">
-        <div class="pole"><div class="t" style="color:var(--muted)">Counterfeit altar — ${esc((ax.altars?.counterfeit?.name)||"")}</div>
-          <p>${esc((e.counterfeitAltar?.desc)||(ax.altars?.counterfeit?.desc)||"")}</p></div>
-        <div class="pole core" style="--ac:${accents[ax.id]}"><div class="t">Godly replacement — ${esc((ax.altars?.godly?.name)||"")}</div>
-          <p>${esc((e.godlyAltar?.desc)||(ax.altars?.godly?.desc)||"")}</p></div>
-      </div>
-      ${ax.archetypes.map(a=>dossier(a)).join("")}
+      <div class="dossiergrid">${ax.archetypes.map(a=>dossier(a)).join("")}</div>
     </div>`;
   }).join("");
   return `<section id="atlas">
     <div class="sechead"><p class="n">${icon("layers")}II · The Atlas</p><h2>Six axes, twelve archetypes</h2>
       <p class="lede">The whole framework, fully unpacked. Each axis holds a calling at one pole and its characteristic attack at the other. Archetypes cluster where they do — some axes carry several, some carry one. Every dossier carries its everyday faces, its biblical case studies, and its blueprint.</p></div>
     ${groups}
-    <hr class="rule"><p class="smallnote serifq">${esc(stripTags(F.guardrail))}</p>
+    <hr class="rule"><p class="smallnote serifq measure">${esc(stripTags(F.guardrail))}</p>
   </section>`;
 }
 
@@ -665,7 +905,7 @@ function tableSection(){
 function dossierMini(d,ac){
   const tc = d.trueCalling||{}; const sh = d.shadow||{}; const cm = d.countermove||{};
   return `<details class="acc"><summary><span style="font-weight:560">${esc(d.title)}</span>
-      <span class="ref">${esc(d.domain||"")}</span>${icon("caret","car")}</summary>
+      ${d.domain?`<span class="tagpill">${esc(d.domain)}</span>`:""}${icon("caret","car")}</summary>
     <div class="inner"><dl class="kv" style="padding-top:.8rem">
       ${d.tagline?kvRow("Tagline",`<span class="serifq">${esc(d.tagline)}</span>`):""}
       ${tc.essence?kvRow("Essence",esc(tc.essence)):""}
@@ -679,7 +919,7 @@ function dossierMini(d,ac){
 
 function compendiumSection(){
   const subs = CANON.subFrequencies.map(s=>`
-    <div class="subfreq"><div class="pair">${esc(s.core.name)} ⇌ ${esc(s.inverse.name)}
+    <div class="subfreq" style="--ac:${s.axis?accents[s.axis]:"var(--border2)"}"><div class="pair">${esc(s.core.name)} ⇌ ${esc(s.inverse.name)}
       ${s.axis?badge(s.confidence,`axis 0${s.axis} · ${s.confidence}`,accents[s.axis]):badge("none","no clean mapping")}</div>
       <p class="serifq">“${esc(s.inverse.signature)}”</p>
       <p>${esc(s.core.signature)}</p></div>`).join("");
@@ -690,49 +930,58 @@ function compendiumSection(){
     ["traumas", cats.trauma?.label||"Trauma Archetypes", cats.trauma?.description||""],
     ["gifts", cats["redemptive-gift"]?.label||"Redemptive Gifts", cats["redemptive-gift"]?.description||""],
   ].map(([key,label,desc])=>{
-    const CICON = {altars:"flame",idols:"gem",traumas:"heart",gifts:"gift"};
+    /* each lens gets its own hue + mark so the four groups don't blur together */
+    const CG = {altars:{ic:"flame",ac:"var(--ax4)"}, idols:{ic:"gem",ac:"var(--ax3)"},
+                traumas:{ic:"pulse",ac:"var(--ax1)"}, gifts:{ic:"gift",ac:"var(--ax5)"}}[key];
     const items = (CANON.compendium[key]||[]).map(d=>dossierMini(d)).join("");
-    return `<div style="margin:2.2rem 0">
-      <h3 style="font-size:1.35rem">${icon(CICON[key]||"gem")}${esc(label)}</h3>
+    return `<div class="compgroup" style="--ac:${CG.ac}">
+      <h3 style="font-size:1.35rem">${icon(CG.ic)}${esc(label)}</h3>
       ${desc?`<p class="smallnote">${esc(desc)}</p>`:""}
-      <div style="display:grid;gap:.6rem">${items}</div></div>`;
+      <div class="glist">${items}</div></div>`;
   }).join("");
   return `<section id="compendium">
     <div class="sechead"><p class="n">${icon("gem")}IV · Compendium</p><h2>The wider system</h2>
       <p class="lede">The lenses the synthesis chips point to — the archive's altars, deep idols, trauma archetypes, and redemptive gifts — plus the twelve finer frequency pairs, each labeled against the six axes.</p></div>
-    <h3 style="font-size:1.35rem">${icon("waves")}Adjacent frequencies</h3>
-    <div class="compgrid">${subs}</div>
+    <div class="compgroup" style="--ac:var(--ax6)">
+      <h3 style="font-size:1.35rem">${icon("waves")}Adjacent frequencies</h3>
+      <div class="compgrid">${subs}</div>
+    </div>
     ${groups}
   </section>`;
 }
 
 function methodSection(){
   const F = CANON.framing;
+  const SRC_ICON = {"Francis Myles":"flame","Arthur Burk":"gift","Robert Henderson":"scale",
+                    "Derek Prince":"shield","Tim Keller":"gem","Dan Allender":"pulse"};
   const srcRows = CANON.sources.map(s=>`
-    <details class="acc"><summary>${esc(s.name)} <span class="ref" style="margin-left:.5rem">${esc(s.domain||"")}</span>${icon("caret","car")}</summary>
+    <details class="acc"><summary>${icon(SRC_ICON[s.name]||"book")}${esc(s.name)}
+      ${s.domain?`<span class="tagpill">${esc(s.domain)}</span>`:""}${icon("caret","car")}</summary>
     <div class="inner"><p class="smallnote">${esc(s.contribution||"")}</p>
     ${s.mechanism?`<p class="smallnote"><b>Mechanism:</b> ${esc(s.mechanism)}</p>`:""}
     ${s.overlap?`<p class="smallnote"><b>Overlap with this atlas:</b> ${esc(s.overlap)}</p>`:""}</div></details>`).join("");
   return `<section id="method">
     <div class="sechead"><p class="n">${icon("sparkle")}V · Method</p><h2>One lens among several.</h2></div>
-    <div class="card"><p class="smallnote" style="margin:0">${esc(stripTags(F.oneLens))}</p></div>
-    <div style="margin:2rem 0">
-      <h3 style="font-size:1.3rem">Three questions before the map</h3>
+    <div class="card measure"><p class="smallnote" style="margin:0">${esc(stripTags(F.oneLens))}</p></div>
+    <div class="methodgrid" style="margin-top:2.4rem">
+    <div class="mblock">
+      <h3>${icon("target")}Three questions before the map</h3>
       ${F.kellerQuestions.map((q,i)=>`<p class="serifq" style="font-size:1.05rem;margin:.5rem 0">${["01","02","03"][i]} — ${esc(q)}</p>`).join("")}
       <p class="smallnote">${esc(F.kellerNote)}</p>
     </div>
-    <div style="margin:2rem 0">
-      <h3 style="font-size:1.3rem">How the diagnostic works</h3>
+    <div class="mblock">
+      <h3>${icon("compass")}How the diagnostic works</h3>
       <p class="smallnote">Twenty-seven scored items in three parts — where the attack lands (axis pressure), how you are wired (archetype design), and which failure mode you recognize (differentiating siblings on shared axes). Scores combine wiring (×2), your primary axis pressure, a forced-choice bonus, and the canonical secondary-resonance edges. A profile needs to clear an honesty floor: if nothing differentiates, the instrument says so instead of forcing a label. ${esc(INSTRUMENT.provenance)}</p>
     </div>
-    <div style="margin:2rem 0"><h3 style="font-size:1.3rem">Lineage of the framework</h3>
-      <div style="display:grid;gap:.6rem">${srcRows}</div>
+    </div>
+    <div class="mblock"><h3>${icon("route")}Lineage of the framework</h3>
+      <div class="srcgrid">${srcRows}</div>
       <p class="smallnote" style="margin-top:1rem">The twelve-tribe archetype teaching is Taylor Welch’s (The Deep End — publicly anchored in episode #097, “The 12 Bloodlines of Human Nature: corruption points, wiring, &amp; destinies,” April 2026). The specific tribe→archetype pairings in this atlas come from its own pressure-tested canonical units; they are labeled “atlas canon (Welch-derived)” rather than attributed to public Welch material, which does not spell them out.</p>
     </div>
-    <div style="margin:2rem 0"><h3 style="font-size:1.3rem">Provenance</h3>
+    <div class="mblock"><h3>${icon("book")}Provenance</h3>
       <p class="smallnote">Every profile string in this instrument is carried verbatim from the canonical source units (v8.4 atlas, the Convergence essay, the react atlas + scripture vault, the archive compendium). New copy exists only where the framework required content that did not exist — the diagnostic items (each tagged with its canonical source phrase in the data island), the secular translation layer (labeled inference), and connective UI labels. Source hashes: ${Object.entries(CANON.meta.sourceHashes).map(([k,v])=>`${esc(k)} <span class="ref">${esc(v)}</span>`).join(" · ")}.</p>
     </div>
-    <hr class="rule"><p class="smallnote serifq">${esc(stripTags(F.guardrail))}</p>
+    <hr class="rule"><p class="smallnote serifq measure">${esc(stripTags(F.guardrail))}</p>
     <div class="footer">Convergence Atlas · v9.2 · rebuilt from canonical units v1.0–v8.4 · single-page edition · light &amp; dark</div>
   </section>`;
 }
@@ -742,11 +991,6 @@ let qpos = 0, pendingIntro = null;
 function freshAnswers(){ return {p1:Array(INSTRUMENT.partI.length).fill(null),
                                  p2:Array(INSTRUMENT.partII.length).fill(null),
                                  p3:Array(INSTRUMENT.partIII.length).fill(null)}; }
-const PART_INTROS = {
-  1:{n:"Part I of III", t:"Where the attack lands", d:"Twelve statements about pressure."},
-  2:{n:"Part II of III", t:"How you are wired", d:"Twelve statements about design — what has always been true, what you do before anyone pays or asks you to."},
-  3:{n:"Part III of III", t:"Which failure mode is yours", d:"Where several archetypes share one battlefield, the failure modes differ. Choose what you recognize — or say that none of them fit. Honesty beats completion."},
-};
 
 function renderQuiz(){
   const box = $("#quizbox");
